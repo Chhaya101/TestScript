@@ -1,0 +1,61 @@
+//Create new visitor
+
+package mypackage;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class NewVisitor {
+
+	public static void main(String[] args)
+	{
+		//Setting system properties of ChromeDriver
+		System.setProperty("webdriver.chrome.driver","C:\\Eclipse\\chromedriver.exe");
+		// Creating object of chrome driver
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+		//Deleting all the cookies
+		driver.manage().deleteAllCookies();
+		try {
+			//Get Url
+			driver.get("https://app.proxyclick.com/");
+			
+      //Enter username and password
+			driver.findElement(By.xpath("//input[@placeholder='Email']")).sendKeys("qa_admin@proxyclick.com");
+			driver.findElement(By.xpath("//input[@placeholder='Password']")).sendKeys("Interview2020");
+			
+			//Enter details to create a new visitor
+			driver.findElement(By.id("visitor-form-firstname")).sendKeys("Fname");
+			driver.findElement(By.id("visitor-form-lastname")).sendKeys("Lname");
+			driver.findElement(By.id("visitor-form-company")).sendKeys("TestCompany");
+			driver.findElement(By.id("visitor-form-email")).sendKeys("abc@yahoo.com");
+			driver.findElement(By.xpath("//input[@class='form-control pxc-form__input ng-valid ng-touched ng-not-empty ng-dirty ng-valid-parse']")).sendKeys("32499897048");
+			driver.findElement(By.id("visitor-form-licensePlate")).sendKeys("HZY098");
+			
+      //Click on Create
+			driver.findElement(By.xpath("//button[@class='btn btn-primary p-x-3 pxc-button-callback ng-binding ng-isolate-scope']")).click();
+			 
+			if (driver.getPageSource().contains("You do not have any visits on this date"))
+			{
+				System.out.println("Visitor created! Test Passed!");
+			}
+			else {
+				
+				System.out.println("Test Failed!");
+				}
+			}
+	catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+	}
+	
+}
+
+
+
